@@ -1,0 +1,18 @@
+bottle:
+  xpCost: 25
+  xpEarn: 20
+  useItems: true
+  consumedItem: 374
+  amountConsumed: 1
+  useMoney: false
+  moneyCost: 100.0
+language:
+  errAmount: Die Anzahl muss eine Zahl sein!
+  errXP: Du hast nicht genug XP!
+  errMoney: Du hast nicht genug Geld!
+  currentXP: Du hast momentan
+  order1: Du hast
+  order2: Flaschen befuellt.
+  refund: Rueckzahlungsbetrag
+  itemConsume: Du hast nicht genuegend leere Flaschen!
+  money: Kosten

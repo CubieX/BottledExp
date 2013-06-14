@@ -1,0 +1,25 @@
+name: BottledExp
+version: 1.0.0c
+description: Fills the player's XP into a bottle
+authors: [sacnoth, CubieX]
+
+main: me.sacnoth.bottledexp.BottledExp
+database: false
+softdepend: [PermissionsEx, zPermissions, bPermissions, PermissionsBukkit, Vault, iConomy]
+
+commands:
+   bottle:
+      description: Fills XP into a bottle.
+      aliases: flasche
+      usage: /bottle [menge/alles] | version | reload
+      permission-message: Du hast hierfuer keine Rechte!
+
+permissions:
+    bottle.use:
+        description: Allows filling XP in bottles
+        default: op
+    bottle.admin:
+        description: Allows total control over the plugin
+        default: op
+        children:
+            bottle.use: true
