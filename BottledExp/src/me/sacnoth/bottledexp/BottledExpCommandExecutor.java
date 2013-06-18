@@ -29,11 +29,11 @@ public class BottledExpCommandExecutor implements CommandExecutor
       Player player = null;
       int currentxp = 0;
       int amount = 0;
-      
+
       if (sender instanceof Player) 
       {
          player = (Player) sender;
-         
+
          currentxp = BottledExp.getPlayerExperience(player);
       }
 
@@ -41,11 +41,14 @@ public class BottledExpCommandExecutor implements CommandExecutor
       {
          if (args.length == 0) 
          {
-            if((null != player) && sender.hasPermission("bottle.use"))
+            if(null != player)
             {
-               player.sendMessage(BottledExp.langCurrentXP + ": " + currentxp + " XP!");               
+               if(player.isOp() || player.hasPermission("bottle.use"))
+               {
+                  player.sendMessage(BottledExp.langCurrentXP + ": " + currentxp + " XP!");
+               }
             }
-            
+
             return true;
          }
          else if (args.length == 1) 
@@ -54,13 +57,13 @@ public class BottledExpCommandExecutor implements CommandExecutor
             {
                if(null != player)
                {
-                  if (sender.hasPermission("bottle.use"))
+                  if (player.isOp() || player.hasPermission("bottle.use"))
                   {
                      amount = (int) Math.floor(currentxp / BottledExp.xpCost);
-                     
+
                      if (currentxp < amount * BottledExp.xpCost) // does player have enough XP?
                      {
-                        sender.sendMessage(ChatColor.RED + BottledExp.errXP);
+                        player.sendMessage(ChatColor.RED + BottledExp.errXP);
                         return true;
                      }
 
@@ -77,7 +80,7 @@ public class BottledExpCommandExecutor implements CommandExecutor
             }
             else if (args[0].equals("reload"))
             {
-               if (sender.hasPermission("bottle.admin"))
+               if (sender.isOp() || sender.hasPermission("bottle.admin"))
                {
                   BottledExp.config.reload(sender);
                   sender.sendMessage(ChatColor.GREEN + "Config reloaded!");                     
@@ -86,7 +89,7 @@ public class BottledExpCommandExecutor implements CommandExecutor
                {
                   sender.sendMessage(ChatColor.RED + "You do not have sufficient permission to reload " + plugin.getDescription().getName() + "!");
                }
-               
+
                return true;
             }
             else if (args[0].equalsIgnoreCase("version"))
@@ -99,19 +102,30 @@ public class BottledExpCommandExecutor implements CommandExecutor
                {
                   sender.sendMessage("This server is running " + plugin.getDescription().getName() + " version " + plugin.getDescription().getVersion());
                }
-               
+
                return true;
             }
             else
             { // argument may be a number to fill one or more bottles
-               try
+               if(null != player)
                {
-                  amount = Integer.valueOf(args[0]).intValue();
-               } 
-               catch (NumberFormatException nfe) 
-               {
-                  sender.sendMessage(ChatColor.RED + BottledExp.errAmount);
-                  return false;
+                  if(player.isOp() || player.hasPermission("bottle.use"))
+                  {
+                     try
+                     {
+                        amount = Integer.valueOf(args[0]).intValue();
+                     } 
+                     catch (NumberFormatException nfe) 
+                     {
+                        player.sendMessage(ChatColor.RED + BottledExp.errAmount);
+                        return false;
+                     }
+                  }
+                  else
+                  {
+                     player.sendMessage(ChatColor.RED + "You have no permission to store XP in bottles!");
+                     return true;
+                  }
                }
             }
 
@@ -143,7 +157,7 @@ public class BottledExpCommandExecutor implements CommandExecutor
             }
 
             boolean consumeItems = false;
-            
+
             if (BottledExp.settingUseItems) // Check if the player has enough items
             {
                consumeItems = BottledExp.checkInventory(player, BottledExp.settingConsumedItem, (amount * BottledExp.amountConsumed));
