@@ -48,12 +48,16 @@ public class BottledExpCommandExecutor implements CommandExecutor
                   player.sendMessage(BottledExp.langCurrentXP + ": " + currentxp + " XP!");
                }
             }
+            else
+            {
+               return false; // show help for console
+            }
 
             return true;
          }
          else if (args.length == 1) 
          {
-            if (args[0].equals("max") || args[0].equals("alles"))
+            if (args[0].equals("all") || args[0].equals("alles"))
             {
                if(null != player)
                {
@@ -70,12 +74,23 @@ public class BottledExpCommandExecutor implements CommandExecutor
                      if (BottledExp.settingUseItems) 
                      {
                         amount = Math.min(BottledExp.countItems(player, BottledExp.settingConsumedItem) / BottledExp.amountConsumed, amount);
+                     
+                        if (amount == 0)
+                        {
+                           sender.sendMessage(ChatColor.RED + BottledExp.langItemConsumer);
+                           return true;
+                        }
                      }
                      if (BottledExp.useVaultEcon) 
                      {
                         amount = Math.min((int) Math.floor(BottledExp.getBalance(player) / BottledExp.moneyCost), amount);
                      }
                   }                  
+               }
+               else
+               {
+                  BottledExp.log.info("This command can only be used by a player in-game!");
+                  return true;
                }
             }
             else if (args[0].equals("reload"))
@@ -105,6 +120,10 @@ public class BottledExpCommandExecutor implements CommandExecutor
 
                return true;
             }
+            else if (args[0].equals("help") || args[0].equals("hilfe"))
+            {
+               return false; // show help
+            }
             else
             { // argument may be a number to fill one or more bottles
                if(null != player)
@@ -126,6 +145,11 @@ public class BottledExpCommandExecutor implements CommandExecutor
                      player.sendMessage(ChatColor.RED + "You have no permission to store XP in bottles!");
                      return true;
                   }
+               }
+               else
+               {
+                  BottledExp.log.info("This command can only be used by a player in-game!");
+                  return true;
                }
             }
 
@@ -178,7 +202,7 @@ public class BottledExpCommandExecutor implements CommandExecutor
             List<String> lore = new ArrayList<String>();
             lore.add("Enthaelt " + plugin.getConfig().getInt("bottle.xpEarn") + " XP.");
             meta.setDisplayName("XP Flasche");
-            meta.setLore(lore);                              
+            meta.setLore(lore);
             items.setItemMeta(meta);
 
             //----------------

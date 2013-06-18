@@ -1,18 +1,17 @@
 name: BottledExp
-version: 1.0.0c
+main: me.sacnoth.bottledexp.BottledExp
+version: 1.0.1c
 description: Fills the player's XP into a bottle
 authors: [sacnoth, CubieX]
-
-main: me.sacnoth.bottledexp.BottledExp
 database: false
 softdepend: [PermissionsEx, zPermissions, bPermissions, PermissionsBukkit, Vault, iConomy]
+aliases: flasche
 
 commands:
    bottle:
       description: Fills XP into a bottle.
       aliases: flasche
-      usage: /bottle [menge/alles] | version | reload
-      permission-message: Du hast hierfuer keine Rechte!
+      usage: /flasche [menge | alles/all] | hilfe/help | version | reload -> Alias=bottle
 
 permissions:
     bottle.use:

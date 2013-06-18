@@ -1,5 +1,9 @@
 Changelog for BottledExp by CubieX (forked by sacnoth)
 ------------------------------------------------------
 
+V1.0.1c
+- added help command. Added some more command handling routes and more specific user messages.
+- build against CB 1.5.2-R1.0
+
 V.1.0.0c
 - Initial version
